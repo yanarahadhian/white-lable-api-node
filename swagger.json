@@ -1,0 +1,448 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "AGAN Dashboard API Documentation",
+    "description": "AGAN Dashboard API Documentation",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3002",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication required to access AGAN API"
+    },
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Login into the system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "description": "User that we want to create",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "username" : {
+                  "type": "string"
+                },
+                "password" : {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Login succesfull",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "ResponseCode" : {
+                  "type": "string"
+                },
+                "ResponseDesc" : {
+                  "type": "string"
+                },
+                "ResponseData" : {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "ResponseCode" : {
+                  "type": "string"
+                },
+                "ResponseDesc" : {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User blocked",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "ResponseCode" : {
+                  "type": "string"
+                },
+                "ResponseDesc" : {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User doesn't exist",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "ResponseCode" : {
+                  "type": "string"
+                },
+                "ResponseDesc" : {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "description": "User that we want to create",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "name" : {
+                  "type": "string"
+                },
+                "username" : {
+                  "type": "string"
+                },
+                "email" : {
+                  "type": "string"
+                },
+                "phone_number" : {
+                  "type": "string"
+                },
+                "area" : {
+                  "type": "string"
+                },
+                "network" : {
+                  "type": "string"
+                },
+                "role" : {
+                  "type": "string"
+                }
+              },
+              "example" : {
+                "name" : "User 1",
+                "username" : "user1",
+                "email" : "user1@agan.id",
+                "phone_number" : "0888000000",
+                "area" : "1",
+                "network" : "1",
+                "role" : "3"
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "string",
+            "schema": {
+              "type" : "object",
+              "properties" : {
+                "ResponseCode" : {
+                  "type": "string"
+                },
+                "ResponseDesc" : {
+                  "type": "string"
+                },
+                "ResponseData" : {
+                  "type": "object"
+                },
+                "ResponseMailUser" : {
+                  "type": "string"
+                },
+                "ResponseMailLog" : {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Search users using given parameters",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "required": true,
+            "description": "Token for request authentication"
+          },{
+            "name": "page",
+            "in": "query",
+            "description": "Search data by given page"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Search data by given limit"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The ID of the user"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The username of the user"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of the user"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "The email of the user"
+          },
+          {
+            "name": "area",
+            "in": "query",
+            "description": "The area of the user"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "The role of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}": {
+      "parameters": [
+        {
+          "name": "username",
+          "in": "path",
+          "required": true,
+          "description": "Username of user that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user with given Username",
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "name",
+        "username",
+        "email",
+        "phone_number",
+        "area",
+        "network",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "salt": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "alamat": {
+          "type": "string"
+        },
+        "noktp": {
+          "type": "string"
+        },
+        "npwp": {
+          "type": "string"
+        },
+        "siup": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "rekening_bank": {
+          "type": "string"
+        },
+        "nama_bank": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "upline": {
+          "type": "string"
+        },
+        "kode_agen": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "user_bb": {
+          "type": "string"
+        },
+        "pass_bb": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "active": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "activation_code": {
+          "type": "string"
+        },
+        "forgotten_password_code": {
+          "type": "string"
+        },
+        "forgotten_password_time": {
+          "type": "integer"
+        },
+        "remember_code": {
+          "type": "string"
+        },
+        "last_login": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ip_address": {
+          "type": "string"
+        },
+        "pin_bb": {
+          "type": "string"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    }
+  }
+}
